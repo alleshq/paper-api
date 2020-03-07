@@ -32,5 +32,5 @@ module.exports = (req, res) => {
         } else {
             res.status(500).json({err: "internalError"});
         }
-    })
+    });
 };
