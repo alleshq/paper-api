@@ -3,7 +3,7 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "hljs": "^6.2.3",
+    "highlight.js": "^9.18.1",
     "insane": "^2.6.2",
     "mariadb": "^2.2.0",
     "marked": "^0.8.0",

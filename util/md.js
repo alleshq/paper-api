@@ -1,6 +1,6 @@
 const insane = require("insane");
 const marked = require("marked");
-const hljs = require("hljs");
+const hljs = require("highlight.js");
 
 marked.setOptions({
     breaks: true,
