@@ -7,7 +7,7 @@ module.exports = db => {
             type: DataTypes.UUID,
             allowNull: false
         },
-        author: {
+        authorId: {
             type: DataTypes.UUID,
             allowNull: false
         },

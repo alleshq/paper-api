@@ -7,8 +7,12 @@ module.exports = db => {
             type: DataTypes.UUID,
             allowNull: false
         },
-        author: {
+        authorId: {
             type: DataTypes.UUID,
+            allowNull: false
+        },
+        slug: {
+            type: DataTypes.STRING,
             allowNull: false
         },
         title: {
@@ -22,6 +26,17 @@ module.exports = db => {
         image: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        tags: {
+            type: DataTypes.STRING,
+            defaultValue: "[]",
+            allowNull: false,
+            get() {
+                return JSON.parse(this.getDataValue("tags"));
+            },
+            set(value) {
+                this.setDataValue("tags", JSON.stringify(value));
+            }
         }
     });
 };
