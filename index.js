@@ -14,7 +14,7 @@ db.sync({force: true}).then(async () => {
         content: `
 Hi! Welcome to Textbox.
 
-This is a **Document**. Each document has its own unique 6 character code, for example, 69abwj.
+This is a **Document**. Each document has its own unique 6 character code, for example, \`69abwj\`.
 In order to create your own document, you can go to the [homepage](/), but you'll need an AllesID to sign in with. If you want one, [fill in this form](https://forms.gle/4sukStiQ9Udp7N5z6).
 
 When you create a document, you can select "Highlighting" and "Markdown". Highlighting is selected by default, and it is intended for when you write code. For example,
