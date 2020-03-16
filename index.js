@@ -5,13 +5,12 @@ const app = express();
 //Database
 const db = require("./db");
 db.sync({force: true}).then(async () => {
-
-    const post1 = await db.Post.create({
-        id: require("uuid/v4")(),
-        authorId: "00000000-0000-0000-0000-000000000000",
-        slug: "building-paper",
-        title: "Building Paper",
-        content: `
+	const post1 = await db.Post.create({
+		id: require("uuid/v4")(),
+		authorId: "00000000-0000-0000-0000-000000000000",
+		slug: "building-paper",
+		title: "Building Paper",
+		content: `
 Hi! Welcome to Textbox.
 
 This is a **Document**. Each document has its own unique 6 character code, for example, \`69abwj\`.
@@ -43,32 +42,34 @@ Anyway, that's all for now. Did I mention you can embed images with markdown? He
 ![Unsplash Image](https://images.unsplash.com/photo-1572731013456-5ed911024bfa?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=80)
 _Source: [textbox/69abwj](https://textbox.alles.cx/69abwj)_
         `,
-        image: "https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fforbestechcouncil%2Ffiles%2F2019%2F01%2Fcanva-photo-editor-8-7.jpg"
-    });
+		image:
+			"https://thumbor.forbes.com/thumbor/960x0/https%3A%2F%2Fblogs-images.forbes.com%2Fforbestechcouncil%2Ffiles%2F2019%2F01%2Fcanva-photo-editor-8-7.jpg"
+	});
 
-    const post2 = await db.Post.create({
-        id: require("uuid/v4")(),
-        authorId: "00000000-0000-0000-0000-000000000000",
-        slug: "spectare",
-        title: "Spectare.",
-        content: "Spectare is a video platform for people, not ads.",
-        image: "https://media.sproutsocial.com/uploads/2017/08/Social-Media-Video-Specs-Feature-Image.png"
-    });
+	const post2 = await db.Post.create({
+		id: require("uuid/v4")(),
+		authorId: "00000000-0000-0000-0000-000000000000",
+		slug: "spectare",
+		title: "Spectare.",
+		content: "Spectare is a video platform for people, not ads.",
+		image:
+			"https://media.sproutsocial.com/uploads/2017/08/Social-Media-Video-Specs-Feature-Image.png"
+	});
 
-    const like1 = await db.PostLike.create({
-        userId: "00000000-0000-0000-0000-000000000000"
-    });
-    await post1.addPostLike(like1);
+	const like1 = await db.PostLike.create({
+		userId: "00000000-0000-0000-0000-000000000000"
+	});
+	await post1.addPostLike(like1);
 
-    const like2 = await db.PostLike.create({
-        userId: "00000000-0000-0000-0000-000000000000"
-    });
-    await post2.addPostLike(like2);
+	const like2 = await db.PostLike.create({
+		userId: "00000000-0000-0000-0000-000000000000"
+	});
+	await post2.addPostLike(like2);
 
-    //Express Listen
-    app.listen(8081, async () => {
-        console.log("Listening on Express");
-    });
+	//Express Listen
+	app.listen(8081, async () => {
+		console.log("Listening on Express");
+	});
 });
 
 //Body Parser
@@ -77,7 +78,7 @@ app.use(bodyParser.json({extended: false}));
 
 //Internal Error Handling
 app.use((err, req, res, next) => {
-    res.status(500).json({err: "internalError"});
+	res.status(500).json({err: "internalError"});
 });
 
 //API
@@ -85,5 +86,5 @@ app.use("/api/v1", require("./api/v1/_"));
 
 //404
 app.use((req, res) => {
-    res.status(404).json({err: "invalidRoute"});
+	res.status(404).json({err: "invalidRoute"});
 });
