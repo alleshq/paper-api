@@ -3,5 +3,18 @@ const dev = process.env.NODE_ENV === "development";
 module.exports = {
 	dev,
 	apiUrl: "https://1api.alles.cx/v1",
-	inputBounds: {}
+	inputBounds: {
+		title: {
+			min: 5,
+			max: 125
+		},
+		image: {
+			min: 16,
+			max: 255
+		},
+		content: {
+			min: 50,
+			max: 15000
+		}
+	}
 };
