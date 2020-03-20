@@ -1,7 +1,7 @@
 const {DataTypes} = require("sequelize");
 
 module.exports = db => {
-	db.PostLike = db.define("postLike", {
+	db.Like = db.define("like", {
 		userId: {
 			type: DataTypes.UUID,
 			allowNull: false
@@ -9,6 +9,6 @@ module.exports = db => {
 	});
 
 	//Post Association
-	db.Post.hasMany(db.PostLike);
-	db.PostLike.belongsTo(db.Post);
+	db.Post.hasMany(db.Like);
+	db.Like.belongsTo(db.Post);
 };
