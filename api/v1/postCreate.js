@@ -5,13 +5,13 @@ const uuid = require("uuid").v4;
 module.exports = async (req, res) => {
 	//Validate Body
 	if (
-        typeof req.body.title !== "string" ||
+		typeof req.body.title !== "string" ||
 		typeof req.body.image !== "string" ||
 		typeof req.body.content !== "string"
 	)
 		return res.status(400).json({err: "invalidBodyParameters"});
-    const title = req.body.title.trim();
-    const slug = req.params.slug;
+	const title = req.body.title.trim();
+	const slug = req.params.slug;
 	const image = req.body.image.trim();
 	const content = req.body.content.trim();
 	if (
@@ -26,9 +26,8 @@ module.exports = async (req, res) => {
 	)
 		return res.status(400).json({err: "invalidBodyParameters"});
 	if (!validUrl(image) || !image.startsWith("https://"))
-        return res.status(400).json({err: "badImageUrl"});
-    if (slug !== makeSlug(slug))
-        return res.status(400).json({err: "badSlug"});
+		return res.status(400).json({err: "badImageUrl"});
+	if (slug !== makeSlug(slug)) return res.status(400).json({err: "badSlug"});
 
 	//Check slug is not already in use
 	const alreadyExists = await db.Post.findOne({
@@ -41,20 +40,20 @@ module.exports = async (req, res) => {
 
 	//Create Post
 	const post = await db.Post.create({
-        id: uuid(),
-        authorId: req.user.id,
-        slug,
-        title,
-        content,
-        image
+		id: uuid(),
+		authorId: req.user.id,
+		slug,
+		title,
+		content,
+		image
 	});
 
 	//Response
 	res.json({
-        id: post.id,
-        username: req.user.username,
-        slug: post.slug
-    });
+		id: post.id,
+		username: req.user.username,
+		slug: post.slug
+	});
 };
 
 //Check Valid URL
