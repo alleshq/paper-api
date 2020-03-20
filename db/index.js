@@ -19,5 +19,4 @@ module.exports = db;
 
 //Models
 require("./Post")(db);
-require("./Comment")(db);
-require("./PostLike")(db);
+require("./Like")(db);

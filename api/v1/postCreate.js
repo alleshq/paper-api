@@ -1,20 +1,24 @@
 const db = require("../../db");
 const config = require("../../config");
+const uuid = require("uuid").v4;
 
 module.exports = async (req, res) => {
 	//Validate Body
 	if (
-		typeof req.body.title !== "string" ||
+        typeof req.body.title !== "string" ||
 		typeof req.body.image !== "string" ||
 		typeof req.body.content !== "string"
 	)
 		return res.status(400).json({err: "invalidBodyParameters"});
-	const title = req.body.title.trim();
+    const title = req.body.title.trim();
+    const slug = req.params.slug;
 	const image = req.body.image.trim();
 	const content = req.body.content.trim();
 	if (
 		title.length < config.inputBounds.title.min ||
 		title.length > config.inputBounds.title.max ||
+		slug.length < config.inputBounds.slug.min ||
+		slug.length > config.inputBounds.slug.max ||
 		image.length < config.inputBounds.image.min ||
 		image.length > config.inputBounds.image.max ||
 		content.length < config.inputBounds.content.min ||
@@ -22,26 +26,35 @@ module.exports = async (req, res) => {
 	)
 		return res.status(400).json({err: "invalidBodyParameters"});
 	if (!validUrl(image) || !image.startsWith("https://"))
-		return res.status(400).json({err: "badImageUrl"});
+        return res.status(400).json({err: "badImageUrl"});
+    if (slug !== makeSlug(slug))
+        return res.status(400).json({err: "badSlug"});
 
-	//Get Post
-	const post = await db.Post.findOne({
+	//Check slug is not already in use
+	const alreadyExists = await db.Post.findOne({
 		where: {
 			authorId: req.user.id,
-			slug: req.params.slug
+			slug
 		}
 	});
-	if (!post) return res.status(400).json({err: "invalidPost"});
+	if (alreadyExists) return res.status(400).json({err: "badSlug"});
 
-	//Update Post
-	await post.update({
-		title,
-		image,
-		content
+	//Create Post
+	const post = await db.Post.create({
+        id: uuid(),
+        authorId: req.user.id,
+        slug,
+        title,
+        content,
+        image
 	});
 
 	//Response
-	res.json({});
+	res.json({
+        id: post.id,
+        username: req.user.username,
+        slug: post.slug
+    });
 };
 
 //Check Valid URL
@@ -58,3 +71,10 @@ const validUrl = str => {
 	); // fragment locator
 	return !!pattern.test(str);
 };
+
+//Make a post slug
+const makeSlug = v =>
+	v
+		.toLowerCase()
+		.replace(/[^\w]+/g, "-")
+		.substr(0, config.inputBounds.slug.max);

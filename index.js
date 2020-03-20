@@ -6,7 +6,7 @@ const app = express();
 const db = require("./db");
 db.sync({force: true}).then(async () => {
 	const post1 = await db.Post.create({
-		id: require("uuid/v4")(),
+		id: require("uuid").v4(),
 		authorId: "00000000-0000-0000-0000-000000000000",
 		slug: "building-paper",
 		title: "Building Paper",
@@ -47,7 +47,7 @@ _Source: [textbox/69abwj](https://textbox.alles.cx/69abwj)_
 	});
 
 	const post2 = await db.Post.create({
-		id: require("uuid/v4")(),
+		id: require("uuid").v4(),
 		authorId: "00000000-0000-0000-0000-000000000000",
 		slug: "spectare",
 		title: "Spectare.",
@@ -56,15 +56,15 @@ _Source: [textbox/69abwj](https://textbox.alles.cx/69abwj)_
 			"https://media.sproutsocial.com/uploads/2017/08/Social-Media-Video-Specs-Feature-Image.png"
 	});
 
-	const like1 = await db.PostLike.create({
+	const like1 = await db.Like.create({
 		userId: "00000000-0000-0000-0000-000000000000"
 	});
-	await post1.addPostLike(like1);
+	await post1.addLike(like1);
 
-	const like2 = await db.PostLike.create({
+	const like2 = await db.Like.create({
 		userId: "00000000-0000-0000-0000-000000000000"
 	});
-	await post2.addPostLike(like2);
+	await post2.addLike(like2);
 
 	//Express Listen
 	app.listen(8081, async () => {

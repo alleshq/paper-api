@@ -8,6 +8,10 @@ module.exports = {
 			min: 5,
 			max: 125
 		},
+		slug: {
+			min: 5,
+			max: 35
+		},
 		image: {
 			min: 16,
 			max: 255
