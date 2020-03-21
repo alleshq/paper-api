@@ -38,6 +38,18 @@ module.exports = async (req, res) => {
 	});
 	if (!post) return res.status(400).json({err: "invalidPost"});
 
+	//Get Liked
+	const liked = req.user
+		? (
+				await post.getLikes({
+					where: {
+						userId: req.user.id
+					}
+				})
+		  ).length > 0
+		: null;
+
+	//Response
 	res.json({
 		id: post.id,
 		author: {
@@ -57,6 +69,8 @@ module.exports = async (req, res) => {
 		updatedAt:
 			post.updatedAt.getTime() !== post.createdAt.getTime()
 				? post.updatedAt
-				: null
+				: null,
+		likes: await post.countLikes(),
+		liked
 	});
 };
