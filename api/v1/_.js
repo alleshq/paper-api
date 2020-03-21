@@ -3,7 +3,7 @@ const auth = require("../../util/auth");
 
 const router = express.Router();
 router.get("/me", auth(), require("./me"));
-router.get("/user", auth(), require("./user"));
+router.get("/user", auth(true), require("./user"));
 router.get("/posts", auth(), require("./posts"));
 router.get("/post/:username/:slug", auth(true), require("./post"));
 router.post("/like/:username/:slug", auth(), require("./like"));
