@@ -1,8 +1,6 @@
-const config = require("../../config");
-const credentials = require("../../credentials");
-const axios = require("axios");
 const db = require("../../db");
 const postCardData = require("../../util/postCardData");
+const getUser = require("../../util/getUser");
 
 module.exports = async (req, res) => {
 	//Search Parameter
@@ -18,21 +16,10 @@ module.exports = async (req, res) => {
 	//Get User from Alles API
 	var user;
 	try {
-		user = (
-			await axios.get(
-				`${config.apiUrl}/user?${
-					searchWithUsername
-						? `username=${encodeURIComponent(req.query.username)}`
-						: `id=${encodeURIComponent(req.query.id)}`
-				}`,
-				{
-					auth: {
-						username: credentials.allesOAuth.id,
-						password: credentials.allesOAuth.secret
-					}
-				}
-			)
-		).data;
+		user = await getUser(
+			searchWithUsername ? req.query.username : req.query.id,
+			searchWithUsername
+		);
 	} catch (err) {
 		if (err.response && err.response.data.err === "invalidUser") {
 			return res.status(400).json({err: "invalidUser"});

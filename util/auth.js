@@ -1,6 +1,7 @@
 const config = require("../config");
 const credentials = require("../credentials");
 const axios = require("axios");
+const getUser = require("./getUser");
 
 module.exports = allowGuest => {
 	return async (req, res, next) => {
@@ -22,19 +23,7 @@ module.exports = allowGuest => {
 				)
 			).data;
 
-			//Get User
-			const user = (
-				await axios.get(
-					`${config.apiUrl}/user?id=${encodeURIComponent(session.user)}`,
-					{
-						auth: {
-							username: credentials.allesOAuth.id,
-							password: credentials.allesOAuth.secret
-						}
-					}
-				)
-			).data;
-
+			const user = await getUser(session.user);
 			req.user = user;
 			next();
 		} catch (e) {
