@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
 			where: {
 				authorId: user.id
 			},
-			order: ["createdAt"]
+			order: [["createdAt", "DESC"]]
 		});
 		response.posts = posts.map(post => postCardData(post, user.username));
 	}
